@@ -1,8 +1,15 @@
-const User=require('../model/usermodel')
+// Fetch the user model
+const User = require('../model/user')
+
+// Fetch modules
 const bcrypt=require('bcryptjs');
+const jwt = require('jsonwebtoken')
+const passport = require('passport')
+const bodyparser = require('body-parser')
+const key = require('../../config/myDbUrl')
 
 //create a user
-exports.signup=async(req, res)=>{
+exports.signup = async(req, res)=>{
     const user=new User({
         username: req.body.username,
         email: req.body.email,
@@ -31,6 +38,62 @@ exports.signup=async(req, res)=>{
         
     }
 }
+
+// Login
+exports.login = async (req, res) => {
+    const email = req.body.email
+    const password = req.body.password
+    User.findOne({ email: email })
+        .then(user => {
+            if (!user) {
+            return res.status(400).json({ emailError: "You are not registered! Please register!" })
+        }
+
+        // unhashing password and check bcrypt
+        bcrypt.compare(password, user.password)
+            .then(isCorrect => {
+                if (isCorrect) {
+                // return res.status(400).json({login: "login success"})
+                // use payload and create token for user
+                const payload = {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email
+                }
+                jwt.sign(
+                    payload,
+                    key.secretOrKey,
+                    { expiresIn: '1h' },
+                    (err, token) => {
+                        if (err) {
+                            throw err
+                            res.json({
+                                success: false,
+                                token: "null"
+                            })
+                        }
+                        res.json({
+                            success: true,
+                            token: "Bearer " + token 
+                        })
+                    }
+                )
+            } else {
+                return res.status(400).json({ login: "Invalid password" })
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
+
+
+
 
 
 
