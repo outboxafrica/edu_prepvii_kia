@@ -6,10 +6,6 @@ const ProfileSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'myUser'
   },
-  username: {
-    type: String,
-    required: true
-  },
   website: {
     type: String
   },

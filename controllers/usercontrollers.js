@@ -6,7 +6,7 @@ const bcrypt=require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const passport = require('passport')
 const bodyparser = require('body-parser')
-const key = require('../../config/myDbUrl')
+const key = require('../config/myDbUrl')
 
 //create a user
 exports.signup = async(req, res)=>{

@@ -8,4 +8,6 @@ const controllers = require('../controllers/usercontrollers')
 // @route - /api/auth/login
 // @desc - route for logging in users
 // @access - PUBLIC
-router.post("/login", controllers.login)
+router.post("/", controllers.login)
+
+module.exports = router

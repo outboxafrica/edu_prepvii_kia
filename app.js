@@ -1,5 +1,8 @@
 require('dotenv').config();
 
+// import keys
+const keys = require('./config/myDbUrl')
+
 const express = require('express');
 const port = process.env.port || 4000;
 
@@ -10,9 +13,6 @@ const signupRoute=require('./routes/signup');
 const loginRoute = require('./routes/login')
 
 
-
-//requiring/importing bodyparser
-const bodyParser = require('body-parser')
 //requiring/importing mongoose
 const mongoose = require('mongoose')
 // import passport
@@ -20,21 +20,19 @@ const passport = require('passport')
 
 const app = express();
 
-//body parser to help us post data
-app.use(bodyParser.urlencoded({extended:true}))
-
 //express.static to enable us access static files
-app.use(bodyParser.json());
-// app.use(express.static('public'));
+app.use(express.json());
+app.use(express.static('public'));
 
 //connecting to the database
-mongoose.connect(process.env.eduDb, {useUnifiedTopology:true, useNewUrlParser:true})
+mongoose.connect(keys.mongoURI, {useUnifiedTopology:true, useNewUrlParser:true})
+    .then(() => console.log('     MongoDb Connected!!! (*_*) '))
 
 // Passport Middleware
 app.use(passport.initialize())
 
 // config for jwt token
-require("./strategies/jsonwebtoken")(passport)
+require("./strategies/jwtwebtoken")(passport)
 
 
 // ROUTING ROUTING ROUTING //
