@@ -1,30 +1,34 @@
+//import express
 const express=require('express');
+//import mongoose
+const mongoose=require('mongoose')
+//import dotenv
 require('dotenv').config();
 const port=process.env.port || 4000;
 
-//requiring/importing signup route
+
+
+//import signup/login route
 const signuproute=require('./routes/signUproute');
-//requiring/importing bodyparser
+
+//import bodyparser
 const bodyParser=require('body-parser')
-//requiring/importing mongoose
-const mongoose=require('mongoose')
+
 
 const app=express();
 
 //body parser to help us post data
 app.use(bodyParser.urlencoded({extended:true}))
-
 //express.static to enable us access static files
 app.use(bodyParser.json());
-// app.use(express.static('public'));
 
-//connecting to the database
+//connect to the database
 mongoose.connect(process.env.eduDb, {useUnifiedTopology:true, useNewUrlParser:true})
 
-//signup route
+//use signup route
 app.use('/', signuproute)
 
-//checking our port
+//check port
 app.listen(port, ()=>{
-    console.log(`listening from http://localhost/${port}`)
+    console.log(`listening from http://localhost:${port}`)
 })
