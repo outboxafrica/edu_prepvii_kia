@@ -1,5 +1,8 @@
+//import mongoose
 const mongoose=require('mongoose');
- const userSchema= new mongoose.Schema({
+
+//create userSchema 
+const userSchema= new mongoose.Schema({
      username:{
          type:String,
          max:20
@@ -13,4 +16,5 @@ const mongoose=require('mongoose');
      location:String
  })
 
+ //export model
  module.exports=mongoose.model('users', userSchema)
