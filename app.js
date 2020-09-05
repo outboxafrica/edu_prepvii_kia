@@ -8,9 +8,11 @@ const port = process.env.port || 4000;
 
 // IMPORT ROUTES
 //requiring/importing signup route
-const signupRoute=require('./routes/signup');
+const signupRoute = require('./routes/signup');
 // import login route
 const loginRoute = require('./routes/login')
+// import questios route
+const questionsRoute = require('./routes/questions')
 
 
 //requiring/importing mongoose
@@ -44,6 +46,8 @@ app.get("/", (req, res) => {
 app.use('/signup', signupRoute)
 // login route
 app.use('/login', loginRoute)
+// post question route
+app.use('/questions', questionsRoute)
 
 
 //checking our port
