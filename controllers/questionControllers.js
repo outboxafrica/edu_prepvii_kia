@@ -46,19 +46,19 @@ exports.update = async (req, res) => {
   ).then(question => {
     res.status(200).json(question)
   }).catch(err => console.log(`**ERROR** : ${err}`))
+}
 
-  // Question.findByIdAndUpdate(
-  //   _id, 
-  //   update, 
-  //   { new: true }, 
-  //   (err, update) => {
-  //     if (err) {
-  //       console.log("err: ", err)
-  //       res.status(500).send(err)
-  //     } else {
-  //       console.log("success")
-  //       res.send(update)
-  //     }
-  //   }
-  // )
+// Delete a question
+exports.delete = async (req, res) => {
+  console.log(`req.body: ${req.body}`)
+  Question.findOneAndDelete(
+    {
+      _id: req.body._id,
+      user: req.user.id
+    }
+  ).then(() => {
+    res.status(200).json({ message: "Deleted!"})
+  }).catch(err => {
+    res.status(400).json({ error: err})
+  })
 }

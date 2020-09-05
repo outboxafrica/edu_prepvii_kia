@@ -17,4 +17,10 @@ router.post("/post", passport.authenticate('jwt', { session: false}), controller
 // @access - PRIVATE
 router.post("/update", passport.authenticate('jwt', { session: false }), controllers.update)
 
+// @type - DELETE
+// @route = /questions/delete
+// @desc - route for deleteing a specific question
+// @access - PRIVATE
+router.delete("/delete/:question_id", passport.authenticate("jwt", { session: false }), controllers.delete)
+
 module.exports = router
