@@ -1,8 +1,11 @@
-//import User model
+//IMPORT MODULES
+const bcrypt=require('bcryptjs');
+const jwt = require('jsonwebtoken')
+// const passport = require('passport')
+
+//IMPORT MODEL
 const User=require('../model/usermodel')
 
-//import bcryptjs
-const bcrypt=require('bcryptjs');
 
 //create a user
 exports.signup=async(req, res)=>{
@@ -16,18 +19,22 @@ exports.signup=async(req, res)=>{
         await bcrypt.genSalt(8, (err, salt)=>{
             bcrypt.hash(user.password, salt, (error, hash)=>{
                 if(error){
-                    console.log(eror)
+                    return res.status(500).json({
+                        error: "password required!"
+                    })
                 }else{
                     user.password=hash;
                     user.save((error)=>{
-                        if(error){
-                            return res.status(401).json({
-                                message:"invalid input"
-                            }); 
-                        }else{
-                            res.json(req.body)
-                        }
-                    })
+                      if(error){//data conflict
+                        res.status(409).json({
+                            error:"Invalid email"
+                        })
+                      }else{
+                           res.status(201).json(req.body)
+                      }
+                    }
+                           
+                    )
                 }
             })
         })
@@ -43,12 +50,12 @@ exports.signup=async(req, res)=>{
 exports.login=(req, res, next)=>{
     //mock user
     const user=User.findOne({
-        username:req.body.username
+        email:req.body.email
     })
     .then(user=>{
         if(!user){
             return res.status(401).json({
-                message:"Invalid username"
+                message:"Invalid email"
             });
         }else
         bcrypt.compare(req.body.password, user.password, (error, isuserresult)=>{
@@ -56,14 +63,23 @@ exports.login=(req, res, next)=>{
                 return res.status(401).json({
                     message:"Passwords dont match"
                 });   
-            }                       
-      //if passwords match
+            }     
+
       if(isuserresult){
-          
-        return res.status(200).json({
-            message:"Welcome to EDU Q&A"
-        });
-      
+          const token=jwt.sign({
+              email:user.email,
+              userId: user._id
+            },
+            process.env.JWT_KEY,
+            {
+                expiresIn:"30min"
+            } 
+            );
+        res.status(201).json({
+            message:"Welcome to EDU Q&A",
+            token:token
+        })
+    
       }else{
         return res.status(401).json({
             message:"Authentication failed"
@@ -71,9 +87,11 @@ exports.login=(req, res, next)=>{
       }
         })
     })
+
     .catch((error)=>{
           console.log(error)
     })
+
 }
 
 
