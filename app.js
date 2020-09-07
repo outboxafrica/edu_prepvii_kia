@@ -1,31 +1,51 @@
 //import express
-const express=require('express');
+const express = require('express');
 //import mongoose
-const mongoose=require('mongoose')
+const mongoose = require('mongoose')
+// import passport
+const passport = require('passport')
 //import dotenv
 require('dotenv').config();
-const port=process.env.port || 4000;
+
+// Create a port variable
+const port = process.env.port || 4000;
+
+// import keys
+const keys = require('./config/myDbUrl')
 
 
-
+// IMPORT ROUTES
 //import signup/login route
-const signuproute=require('./routes/signUproute');
-
-//import bodyparser
-const bodyParser=require('body-parser')
+const signuproute = require('./routes/signUproute');
 
 
-const app=express();
+// create an express app
+const app = express();
 
-//body parser to help us post data
-app.use(bodyParser.urlencoded({extended:true}))
+// use express.json middleware
+app.use(express.json());
 //express.static to enable us access static files
-app.use(bodyParser.json());
+app.use(express.static('public'))
 
-//connect to the database
-mongoose.connect(process.env.eduDb, {useUnifiedTopology:true, useNewUrlParser:true})
+// // LOCAL DATABASE
+// //connect to the database
+// mongoose.connect(process.env.eduDb, {useUnifiedTopology:true, useNewUrlParser:true})
 
-//use signup route
+// CLOUD DATABASE
+//connecting to the database
+mongoose.connect(keys.mongoURI, {useUnifiedTopology:true, useNewUrlParser:true, useFindAndModify: false })
+    .then(() => console.log('     MongoDb Connected!!! (*_*) '))
+
+
+// Passport Middleware
+app.use(passport.initialize())
+
+// config for jwt token
+require("./strategies/jwtwebtoken")(passport)
+
+
+// ROUTING ROUTING ROUTING //
+//use auth routes
 app.use('/', signuproute)
 
 //check port
