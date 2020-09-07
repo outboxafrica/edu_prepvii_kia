@@ -17,6 +17,8 @@ const keys = require('./config/myDbUrl')
 // IMPORT ROUTES
 //import signup/login route
 const signuproute = require('./routes/signUproute');
+// import questions route
+const questionsRoute = require('./routes/questions')
 
 
 // create an express app
@@ -31,7 +33,7 @@ app.use(express.static('public'))
 // //connect to the database
 // mongoose.connect(process.env.eduDb, {useUnifiedTopology:true, useNewUrlParser:true})
 
-// CLOUD DATABASE
+// // CLOUD DATABASE
 //connecting to the database
 mongoose.connect(keys.mongoURI, {useUnifiedTopology:true, useNewUrlParser:true, useFindAndModify: false })
     .then(() => console.log('     MongoDb Connected!!! (*_*) '))
@@ -47,6 +49,8 @@ require("./strategies/jwtwebtoken")(passport)
 // ROUTING ROUTING ROUTING //
 //use auth routes
 app.use('/', signuproute)
+// use questions routes
+app.use('/questions', questionsRoute)
 
 //check port
 app.listen(port, ()=>{
