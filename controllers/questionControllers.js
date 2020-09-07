@@ -30,3 +30,24 @@ exports.findQuestions=async (req, res) => {
         return res.status(500).json({"error":error})
     }
 }
+
+// get one quiz question
+exports.findQuestion= async (req, res) =>{
+    try {
+        const id = req.params.id;
+        await Question.findById(id, (err, question)=>{
+            if(err){
+                return res.status(404).json({
+                "error":"Question does not exist"
+                }) 
+                
+            }else{
+                res.json({
+                    question:question
+                })
+            }
+        })
+    } catch (error) {
+       console.log(error) 
+    }
+}

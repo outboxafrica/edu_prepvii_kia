@@ -19,5 +19,11 @@ router.post('/questions', authentication, questionControllers.postQuestion)
 //@type - PUBLIC
 router.get('/questions', questionControllers.findQuestions)
 
+//@type -GET
+//@route -/question
+//@desc - route for displaying a single question
+//@type - PUBLIC
+router.get('/questions/:id', questionControllers.findQuestion)
+
 //export router
 module.exports=router;
