@@ -54,3 +54,18 @@ exports.postAnswer = async (req, res) => {
     })
   })
 }
+
+// Delete a question
+exports.delete = async (req, res) => {
+  console.log(`req.body: ${req.body}`)
+  Question.findOneAndDelete(
+    {
+      _id: req.body._id,
+      user: req.user.id
+    }
+  ).then(() => {
+    res.status(200).json({ message: "Deleted!"})
+  }).catch(err => {
+    res.status(400).json({ error: err})
+  })
+}
