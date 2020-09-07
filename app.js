@@ -5,8 +5,9 @@ const bodyParser=require('body-parser')
 require('dotenv').config();
 const port=process.env.PORT || 4000;
 
-//IMPORT  USER ROUTE
+//IMPORT ROUTES
 const userRoute=require('./routes/userRoute');
+const questionRoute=require('./routes/questionRoute');
 
 const app=express();
 
@@ -18,6 +19,7 @@ mongoose.connect(process.env.EDU_DB, {useUnifiedTopology:true, useNewUrlParser:t
 
 //use user route
 app.use('/', userRoute)
+app.use('/', questionRoute)
 
 //check port
 app.listen(port, ()=>{
