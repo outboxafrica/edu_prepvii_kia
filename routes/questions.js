@@ -23,5 +23,11 @@ router.post("/:question_id/answers", passport.authenticate('jwt', { session: fal
 // @access - PRIVATE
 router.delete("/:question_id/delete", passport.authenticate("jwt", { session: false }), controllers.delete)
 
+// @type - GET
+// @route - /questions/answers/:question_id
+// @desc - route for viewing answers to a question
+// @access - PUBLIC
+router.get("/answers/:question_id/get", controllers.getAnswers)
+
 
 module.exports = router
