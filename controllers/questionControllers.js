@@ -147,3 +147,18 @@ exports.getQuestions = async (req, res) => {
   })
   .catch(err => console.log(`**ERROR** finding question: ${err}`))
 }
+
+// Get a specific question
+exports.getQuestion = async (res, res) => {
+  const question_id = req.params.question_id 
+
+  Question.findById(question_id)
+    .then(question => {
+      console.log(question)
+      res.status(200).json(question)
+    })
+    .catch(err => {
+      console.log(`**ERROR** >> ${err}`)
+      res.status(500).json(err)
+    })
+}

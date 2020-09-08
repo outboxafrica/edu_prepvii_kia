@@ -42,4 +42,10 @@ router.post("/:question_id/answers/:answer_id")
 // @access - PRIVATE
 router.get("/", passport.authenticate('jwt', { session: false }), controllers.getQuestions)
 
+// @type - GET
+// @route - /questions
+// @desc - get a specific question 
+// @access - PUBLIC
+router.get("/:question_id", controllers.getQuestion)
+
 module.exports = router
