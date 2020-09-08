@@ -56,6 +56,12 @@ const QuestionSchema = new Schema({
       }
     }
   ],
+  acceptedAnswer: {
+    id: {
+      type: Schema.Types.ObjectId,
+      ref: 'myAnswer'
+    }
+  },
   date: {
     type: Date,
     Default: Date.now,

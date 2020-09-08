@@ -90,3 +90,44 @@ exports.getAnswers = async (req, res) => {
       console.log(`**ERROR** finding question : ${err}`)
     })
 }
+
+// Accept a preferred answer
+exports.acceptAnswer = async (req, res) => {
+  const question_id = req.params.question_id 
+  const answer_id = req.params.answer_id 
+
+  console.log(question_id)
+  console.log(answer_id)
+
+  Question.findOne(
+    { 
+      _id: question_id,
+      user: req.user.id,
+    }
+  ).then(question => {
+    console.log(question)
+
+    Answer.find(
+      { _id: answer_id }
+    ).then(answer => {
+      console.log(answer)
+
+      question.acceptedAnswer = answer._id 
+      question.save()
+        .then(questionItem => {
+          res.status(200).json(questionItem)
+        })
+      
+    })
+    .catch(err => {
+      if (err) {
+        console.log(`**ERROR** >> ${err}`)
+        res.status(500).json(err)
+      }
+    })
+  })
+  .catch(err => {
+    console.log(`**ERROR** >> ${err}`)
+    res.status(500).json(err)
+  })
+}

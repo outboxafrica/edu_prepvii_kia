@@ -30,4 +30,10 @@ router.delete("/:question_id/delete", passport.authenticate("jwt", { session: fa
 router.get("/answers/:question_id/get", controllers.getAnswers)
 
 
+// @type - POST
+// @route - /questions/:question_id/answers/:answer_id
+// @desc - route for accepting a preferred answer
+// @access - PRIVATE
+router.post("/:question_id/answers/:answer_id")
+
 module.exports = router
