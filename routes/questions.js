@@ -36,4 +36,10 @@ router.get("/answers/:question_id/get", controllers.getAnswers)
 // @access - PRIVATE
 router.post("/:question_id/answers/:answer_id")
 
+// @type - GET
+// @route - /questions
+// @desc - get all questions written by the user
+// @access - PRIVATE
+router.get("/", passport.authenticate('jwt', { session: false }), controllers.getQuestions)
+
 module.exports = router
