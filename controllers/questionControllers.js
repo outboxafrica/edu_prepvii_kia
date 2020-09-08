@@ -149,7 +149,7 @@ exports.getQuestions = async (req, res) => {
 }
 
 // Get a specific question
-exports.getQuestion = async (res, res) => {
+exports.getQuestion = async (req, res) => {
   const question_id = req.params.question_id 
 
   Question.findById(question_id)
