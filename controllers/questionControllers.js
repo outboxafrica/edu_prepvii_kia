@@ -69,3 +69,24 @@ exports.delete = async (req, res) => {
     res.status(400).json({ error: err})
   })
 }
+
+// View Answers to a Question
+exports.getAnswers = async (req, res) => {
+  console.log(`**req.params.question_id** : ${req.params.question_id}`)
+  Question.find({ _id: req.params.question_id })
+    .then(question => {
+      console.log(question)
+
+      if (question) {
+        // extract the answers
+        let answers = question.map(question => question.answers)
+        console.log(answers)
+        res.status(200).json(answers)
+      } else {
+        res.status(500).json({ questionNotFound: "Question not found!!!"})
+      }
+    })
+    .catch(err => {
+      console.log(`**ERROR** finding question : ${err}`)
+    })
+}
