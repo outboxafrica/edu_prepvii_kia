@@ -131,3 +131,19 @@ exports.acceptAnswer = async (req, res) => {
     res.status(500).json(err)
   })
 }
+
+// Get all user's questions
+exports.getQuestions = async (req, res) => {
+  Question.find(
+    { 
+      user: req.user.id
+    }
+  ).sort({ date: "desc" })
+  .then(questions => {
+    if (questions) {
+      console.log(`**SUCCESS**`)
+      res.status(200).json(questions)
+    }
+  })
+  .catch(err => console.log(`**ERROR** finding question: ${err}`))
+}
