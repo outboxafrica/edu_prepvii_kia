@@ -31,7 +31,7 @@ app.use(express.static('public'))
 
 // // LOCAL DATABASE
 // //connect to the database
-// mongoose.connect(process.env.eduDb, {useUnifiedTopology:true, useNewUrlParser:true})
+// mongoose.connect(process.env.EDU_DB, {useUnifiedTopology:true, useNewUrlParser:true})
 
 // // CLOUD DATABASE
 //connecting to the database
