@@ -37,7 +37,7 @@ router.get("/:question_id/answers", controllers.getAnswers)
 router.post("/:question_id/accept", passport.authenticate("jwt", { session: false }), controllers.acceptAnswer)
 
 // @type - GET
-// @route - /questions/
+// @route - /questions/:question_id
 // @desc - get a specific question 
 // @access - PUBLIC
 router.get("/:question_id", controllers.getQuestion)
