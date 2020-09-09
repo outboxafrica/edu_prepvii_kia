@@ -5,12 +5,12 @@ const mongoose = require('mongoose')
 // import schema to use with jwt
 const User = mongoose.model('users')
 // import DB secret key
-const secretkey = require('../config/myDbUrl')
+const secretkey = process.env.JWT_SECRET
 
 
 var opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
-opts.secretOrKey = secretkey.secretOrKey
+opts.secretOrKey = secretkey
 
 
 module.exports = passport => {

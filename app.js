@@ -1,17 +1,22 @@
+//import dotenv
+require('dotenv').config();
 //import express
 const express = require('express');
 //import mongoose
 const mongoose = require('mongoose')
 // import passport
 const passport = require('passport')
-//import dotenv
-require('dotenv').config();
+
 
 // Create a port variable
-const port = process.env.port || 4000;
+const port = process.env.PORT || 4000;
 
 // import keys
 const keys = require('./config/myDbUrl')
+
+// Database Key
+const DB = process.env.MONGO_URL
+
 
 
 // IMPORT ROUTES
@@ -35,7 +40,7 @@ app.use(express.static('public'))
 
 // // CLOUD DATABASE
 //connecting to the database
-mongoose.connect(keys.mongoURI, {useUnifiedTopology:true, useNewUrlParser:true, useFindAndModify: false })
+mongoose.connect(DB, {useUnifiedTopology:true, useNewUrlParser:true, useFindAndModify: false })
     .then(() => console.log('     MongoDb Connected!!! (*_*) '))
 
 
@@ -48,9 +53,9 @@ require("./strategies/jwtwebtoken")(passport)
 
 // ROUTING ROUTING ROUTING //
 //use auth routes
-app.use('/', signuproute)
+app.use('api/', signuproute)
 // use questions routes
-app.use('/questions', questionsRoute)
+app.use('api/questions', questionsRoute)
 
 //check port
 app.listen(port, ()=>{
