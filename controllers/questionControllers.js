@@ -20,7 +20,10 @@ exports.post = async (req, res) => {
     .then(question => {
       res.json(question)
     })
-    .catch(err => console.log("Unable to save question to database", err))
+    .catch(err => {
+      console.log("Unable to save question to database", err)
+      res.status(500).json({ error: "Failed to save answer!" })
+    })
 }
 
 // Post an answer to a question
@@ -57,16 +60,18 @@ exports.postAnswer = async (req, res) => {
 
 // Delete a question
 exports.delete = async (req, res) => {
-  console.log(`req.body: ${req.body}`)
+  const question_id = req.query.question_id
+  const user_id = req.user.id
+
   Question.findOneAndDelete(
     {
-      _id: req.body._id,
-      user: req.user.id
+      _id: question_id,
+      user: user_id
     }
   ).then(() => {
     res.status(200).json({ message: "Deleted!"})
   }).catch(err => {
-    res.status(400).json({ error: err})
+    res.status(400).json({ error: "Failed to delete question!"})
   })
 }
 
@@ -88,69 +93,51 @@ exports.getAnswers = async (req, res) => {
     })
     .catch(err => {
       console.log(`**ERROR** finding question : ${err}`)
+      res.status(500).json({ error: "Failed to find question!" })
     })
 }
 
 // Accept a preferred answer
 exports.acceptAnswer = async (req, res) => {
   const question_id = req.params.question_id 
-  const answer_id = req.params.answer_id 
+  const answer_id = req.query.answer_id 
 
-  console.log(question_id)
-  console.log(answer_id)
+  console.log(`>> question_id : ${question_id}`)
+  console.log(`>> answer_id : ${answer_id}`)
 
-  Question.findOne(
+  Question.findOneAndUpdate(
     { 
       _id: question_id,
       user: req.user.id,
+    },
+    { "acceptedAnswer": { id: answer_id }},
+    { new: true },
+    (err, question) => {
+      if (err) throw console.log(`**ERROR** : ${err}`)
+      res.status(200).json({ answerAccepted: "Answer Accepted!!!" })
     }
-  ).then(question => {
-    console.log(question)
-
-    Answer.find(
-      { _id: answer_id }
-    ).then(answer => {
-      console.log(answer)
-
-      question.acceptedAnswer = answer._id 
-      question.save()
-        .then(questionItem => {
-          res.status(200).json(questionItem)
-        })
-      
-    })
-    .catch(err => {
-      if (err) {
-        console.log(`**ERROR** >> ${err}`)
-        res.status(500).json(err)
-      }
-    })
-  })
-  .catch(err => {
-    console.log(`**ERROR** >> ${err}`)
-    res.status(500).json(err)
-  })
+  )
 }
 
 // Get all user's questions
 exports.getQuestions = async (req, res) => {
-  Question.find(
-    { 
-      user: req.user.id
-    }
-  ).sort({ date: "desc" })
-  .then(questions => {
-    if (questions) {
-      console.log(`**SUCCESS**`)
-      res.status(200).json(questions)
-    }
-  })
-  .catch(err => console.log(`**ERROR** finding question: ${err}`))
+  Question.find()
+    .sort({ date: "desc" })
+    .then(questions => {
+      if (questions) {
+        console.log('SUCCESS')
+        res.status(200).json(questions)
+      }
+    })
+    .catch(err => {
+     console.log(`**ERROR** >> finding question: ${err}`)
+      res.status(500).json({ error: "Failed to get Questions!" })
+    })  
 }
 
 // Get a specific question
 exports.getQuestion = async (req, res) => {
-  const question_id = req.params.question_id 
+  const question_id = req.query.question_id
 
   Question.findById(question_id)
     .then(question => {
@@ -159,6 +146,6 @@ exports.getQuestion = async (req, res) => {
     })
     .catch(err => {
       console.log(`**ERROR** >> ${err}`)
-      res.status(500).json(err)
+      res.status(500).json({ error: "Failed to get question!" })
     })
 }
