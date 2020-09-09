@@ -37,15 +37,15 @@ router.get("/:question_id/answers", controllers.getAnswers)
 router.post("/:question_id/accept", passport.authenticate("jwt", { session: false }), controllers.acceptAnswer)
 
 // @type - GET
+// @route - /questions/
+// @desc - get a specific question 
+// @access - PUBLIC
+router.get("/:question_id", controllers.getQuestion)
+
+// @type - GET
 // @route - /questions
 // @desc - get all questions
 // @access - PUBLIC
 router.get("/", controllers.getQuestions)
-
-// @type - GET
-// @route - /questions
-// @desc - get a specific question 
-// @access - PUBLIC
-router.get("/", controllers.getQuestion)
 
 module.exports = router

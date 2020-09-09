@@ -53,9 +53,9 @@ require("./strategies/jwtwebtoken")(passport)
 
 // ROUTING ROUTING ROUTING //
 //use auth routes
-app.use('api/', signuproute)
+app.use('/api', signuproute)
 // use questions routes
-app.use('api/questions', questionsRoute)
+app.use('/api/questions', questionsRoute)
 
 //check port
 app.listen(port, ()=>{
