@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
 router.post('/auth/signup', usercontrollers.signup)
 
 //@type - POST
-//@route - /auth/signup
+//@route - /auth/login
 //@desc - route for authenticating a user to log in
 //@type - PUBLIC
 router.post('/auth/login', usercontrollers.login)

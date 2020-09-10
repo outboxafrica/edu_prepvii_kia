@@ -12,7 +12,7 @@ const passport = require('passport')
 const port = process.env.PORT || 4000;
 
 // import keys
-const keys = require('./config/myDbUrl')
+// const keys = require('./config/myDbUrl')
 
 // Database Key
 const DB = process.env.MONGO_URL

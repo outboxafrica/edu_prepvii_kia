@@ -9,7 +9,7 @@ const controllers = require('../controllers/questionControllers')
 // @route - /questions
 // @desc - route for posting a question
 // @access - PRIVATE
-router.post("/", passport.authenticate('jwt', { session: false}), controllers.post)
+router.post("/", passport.authenticate('jwt', { session: false }), controllers.post)
 
 // @type - POST
 // @route - /questions/:question_id/answers

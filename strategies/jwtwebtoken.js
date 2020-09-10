@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const User = mongoose.model('users')
 // import DB secret key
 const secretkey = process.env.JWT_SECRET
+// const secretkey = require('../config/myDbUrl').secretOrKey
 
 
 var opts = {}

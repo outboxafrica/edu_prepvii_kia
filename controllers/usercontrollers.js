@@ -4,7 +4,7 @@ const User = require('../model/usermodel')
 //import modules
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const key = require('../config/myDbUrl')
+const key = process.env.JWT_SECRET
 
 //create a user
 exports.signup = async (req, res) => {
@@ -63,7 +63,7 @@ exports.login = async (req, res) => {
                 }
                 jwt.sign(
                     payload,
-                    key.secretOrKey,
+                    key,
                     { expiresIn: '1h' },
                     (err, token) => {
                         if (err) {
@@ -75,7 +75,7 @@ exports.login = async (req, res) => {
                         }
                         res.json({
                             success: true,
-                            token: "Bearer " + token 
+                            token: token 
                         })
                     }
                 )
