@@ -21,7 +21,7 @@ router.post("/:question_id/answers", passport.authenticate('jwt', { session: fal
 // @route - /questions/:question_id
 // @desc - route for deleting a specific question
 // @access - PRIVATE
-router.delete("/", passport.authenticate("jwt", { session: false }), controllers.delete)
+router.delete("/:question_id", passport.authenticate("jwt", { session: false }), controllers.delete)
 
 // @type - GET
 // @route - /questions/answers/:question_id
