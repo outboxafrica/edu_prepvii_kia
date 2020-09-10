@@ -10,7 +10,8 @@ const usercontrollers = require('../controllers/usercontrollers')
 //@desc - route to index page
 //@type - PUBLIC
 router.get("/", (req, res) => {
-  res.send("Hello world, Welcome to Edu_API by KIA")
+  let path = require('path')
+  res.sendFile(path.resolve("public/index.html"))
 })
 
 //@type - POST
