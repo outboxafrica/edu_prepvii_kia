@@ -9,7 +9,7 @@ const controllers = require('../controllers/questionControllers')
 // @route - /questions
 // @desc - route for posting a question
 // @access - PRIVATE
-router.post("/", passport.authenticate('jwt', { session: false}), controllers.post)
+router.post("/", passport.authenticate('jwt', { session: false }), controllers.post)
 
 // @type - POST
 // @route - /questions/:question_id/answers
@@ -21,7 +21,7 @@ router.post("/:question_id/answers", passport.authenticate('jwt', { session: fal
 // @route - /questions/:question_id
 // @desc - route for deleting a specific question
 // @access - PRIVATE
-router.delete("/", passport.authenticate("jwt", { session: false }), controllers.delete)
+router.delete("/:question_id", passport.authenticate("jwt", { session: false }), controllers.delete)
 
 // @type - GET
 // @route - /questions/answers/:question_id
@@ -37,15 +37,15 @@ router.get("/:question_id/answers", controllers.getAnswers)
 router.post("/:question_id/accept", passport.authenticate("jwt", { session: false }), controllers.acceptAnswer)
 
 // @type - GET
+// @route - /questions/:question_id
+// @desc - get a specific question 
+// @access - PUBLIC
+router.get("/:question_id", controllers.getQuestion)
+
+// @type - GET
 // @route - /questions
 // @desc - get all questions
 // @access - PUBLIC
 router.get("/", controllers.getQuestions)
-
-// @type - GET
-// @route - /questions
-// @desc - get a specific question 
-// @access - PUBLIC
-router.get("/", controllers.getQuestion)
 
 module.exports = router

@@ -10,7 +10,8 @@ const usercontrollers = require('../controllers/usercontrollers')
 //@desc - route to index page
 //@type - PUBLIC
 router.get("/", (req, res) => {
-  res.send("Hello world, Welcome to Edu_API by KIA")
+  let path = require('path')
+  res.sendFile(path.resolve("public/index.html"))
 })
 
 //@type - POST
@@ -20,7 +21,7 @@ router.get("/", (req, res) => {
 router.post('/auth/signup', usercontrollers.signup)
 
 //@type - POST
-//@route - /auth/signup
+//@route - /auth/login
 //@desc - route for authenticating a user to log in
 //@type - PUBLIC
 router.post('/auth/login', usercontrollers.login)

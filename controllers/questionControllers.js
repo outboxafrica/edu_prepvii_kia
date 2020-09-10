@@ -60,7 +60,7 @@ exports.postAnswer = async (req, res) => {
 
 // Delete a question
 exports.delete = async (req, res) => {
-  const question_id = req.query.question_id
+  const question_id = req.params.question_id
   const user_id = req.user.id
 
   Question.findOneAndDelete(
@@ -137,7 +137,7 @@ exports.getQuestions = async (req, res) => {
 
 // Get a specific question
 exports.getQuestion = async (req, res) => {
-  const question_id = req.query.question_id
+  const question_id = req.params.question_id
 
   Question.findById(question_id)
     .then(question => {
