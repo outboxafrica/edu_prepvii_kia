@@ -1,21 +1,42 @@
+// import validators
+const validators = require('./validators/questions')
+
+// create an express router
 const express = require('express')
 const router = express.Router()
+
+// import passport
 const passport = require('passport')
 
-// import controller
+
+// import controllers
 const controllers = require('../controllers/questionControllers')
 
 // @type - POST
 // @route - /questions
 // @desc - route for posting a question
 // @access - PRIVATE
-router.post("/", passport.authenticate('jwt', { session: false }), controllers.post)
+router.post(
+  "/", 
+  [
+    validators.postQuestion, 
+    passport.authenticate('jwt', { session: false })
+  ], 
+  controllers.post
+)
 
 // @type - POST
 // @route - /questions/:question_id/answers
 // @desc - route for posting an answer
 // @access - PRIVATE
-router.post("/:question_id/answers", passport.authenticate('jwt', { session: false }), controllers.postAnswer)
+router.post(
+  "/:question_id/answers",
+  [
+    validators.postAnswer,
+    passport.authenticate('jwt', { session: false })
+  ], 
+  controllers.postAnswer
+)
 
 // @type - DELETE
 // @route - /questions/:question_id
