@@ -1,3 +1,6 @@
+// import express-validator
+const { validationResult } = require('express-validator')
+
 // Fetch Modules
 const mongoose = require('mongoose')
 const passport = require('passport')
@@ -9,6 +12,14 @@ const Answer = require('../model/questionModel').Answer
 
 // Post a question
 exports.post = async (req, res) => {
+  const errors = validationResult(req)
+  console.log(req.body)
+
+  if (!errors.isEmpty()) {
+      return res.status(422).json(errors.array())
+  } 
+
+
   const newQuestion = new Question({
     user: req.user.id,
     textone: req.body.textone,
@@ -28,6 +39,13 @@ exports.post = async (req, res) => {
 
 // Post an answer to a question
 exports.postAnswer = async (req, res) => {
+  const errors = validationResult(req)
+  console.log(req.body)
+
+  if (!errors.isEmpty()) {
+      return res.status(422).json(errors.array())
+  } 
+
   let question_id = req.params.question_id
   console.log(question_id)
 

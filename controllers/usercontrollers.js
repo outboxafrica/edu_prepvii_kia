@@ -1,3 +1,6 @@
+// import express-validator
+const { validationResult } = require('express-validator')
+
 //import User model
 const User = require('../model/usermodel')
 
@@ -8,6 +11,13 @@ const key = process.env.JWT_SECRET
 
 //create a user
 exports.signup = async (req, res) => {
+    const errors = validationResult(req)
+    console.log(req.body)
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json(errors.array())
+    } 
+
     const user = new User({
         username: req.body.username,
         email: req.body.email,
@@ -23,8 +33,9 @@ exports.signup = async (req, res) => {
                     user.password = hash;
                     user.save((error) => {
                         if (error) {
+                            console.log(`**ERROR** >> ${error}`)
                             return res.status(401).json({
-                                message:"invalid input"
+                                message:"Failed to save!"
                             }); 
                         } else {
                             res.json(req.body)
@@ -42,6 +53,13 @@ exports.signup = async (req, res) => {
 
 // Login
 exports.login = async (req, res) => {
+    const errors = validationResult(req)
+    console.log(req.body)
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json(errors.array())
+    } 
+
     const email = req.body.email
     const password = req.body.password
     User.findOne({ email: email })

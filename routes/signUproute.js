@@ -1,4 +1,7 @@
-//require express to help us create our server and routes
+// import validators
+const validators = require('./validators/signUproute')
+
+//import Express for the router
 const express = require('express');
 const router = express.Router();
 
@@ -18,13 +21,13 @@ router.get("/", (req, res) => {
 //@route - /auth/signup
 //@desc - route for adding a user to the database
 //@type - PUBLIC
-router.post('/auth/signup', usercontrollers.signup)
+router.post('/auth/signup', validators.signup, usercontrollers.signup)
 
 //@type - POST
 //@route - /auth/login
 //@desc - route for authenticating a user to log in
 //@type - PUBLIC
-router.post('/auth/login', usercontrollers.login)
+router.post('/auth/login', validators.login,usercontrollers.login)
 
 //export router
 module.exports = router;
