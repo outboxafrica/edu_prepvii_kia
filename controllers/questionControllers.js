@@ -10,7 +10,7 @@ const Answer = require('../model/answerModel');
 // Post a question
 exports.post = async (req, res) => {
   const errors = validationResult(req);
-  console.log(req.body);
+  // console.log(req.body);
 
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.array());
@@ -25,10 +25,9 @@ exports.post = async (req, res) => {
 
   newQuestion.save()
     .then((question) => res.json(question))
-    .catch((err) => {
-      console.log('Unable to save question to database', err);
-      return res.status(500).json({ error: 'Failed to save answer!' });
-    });
+    .catch((err) =>
+      // console.log('Unable to save question to database', err);
+      res.status(500).json({ error: 'Failed to save answer!' }));
 
   return null;
 };
@@ -36,14 +35,14 @@ exports.post = async (req, res) => {
 // Post an answer to a question
 exports.postAnswer = async (req, res) => {
   const errors = validationResult(req);
-  console.log(req.body);
+  // console.log(req.body);
 
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.array());
   }
 
   const { question_id } = req.params;
-  console.log(question_id);
+  // console.log(question_id);
 
   const newAnswer = new Answer(
     {
@@ -54,7 +53,11 @@ exports.postAnswer = async (req, res) => {
   );
 
   newAnswer.save((error) => {
-    if (error) return console.log(`**ERROR** saving answer: ${error}`);
+    if (error) {
+      // console.log(`**ERROR** saving answer: ${error}`);
+
+      return res.status(500).json({ message: 'Failed to save!' });
+    }
 
     Question.findOneAndUpdate(
       {
@@ -62,13 +65,11 @@ exports.postAnswer = async (req, res) => {
       },
       { $push: { 'answers.0': newAnswer } },
       { new: true },
-    ).then((question) => {
-      console.log(question);
-      return res.status(200).json(question);
-    }).catch((err) => {
-      console.log(`**ERROR** find and update question : ${err}`);
-      return res.status(500).json({ failedToUpdate: 'Failed to save the answer!' });
-    });
+    ).then((question) =>
+      // console.log(question);
+      res.status(200).json(question)).catch((err) =>
+      // console.log(`**ERROR** find and update question : ${err}`);
+      res.status(500).json({ failedToUpdate: 'Failed to save the answer!' }));
 
     return null;
   });
@@ -87,35 +88,33 @@ exports.delete = async (req, res) => {
       user: user_id,
     },
   ).then(() => res.status(200).json({ message: 'Deleted!' }))
-    .catch((err) => {
-      console.log(`ERROR >> ${err}`);
-      return res.status(400).json({ error: 'Failed to delete question!' });
-    });
+    .catch((err) =>
+      // console.log(`ERROR >> ${err}`);
+      res.status(400).json({ error: 'Failed to delete question!' }));
 
   return null;
 };
 
 // View Answers to a Question
 exports.getAnswers = async (req, res) => {
-  console.log(`**req.params.question_id** : ${req.params.question_id}`);
+  // console.log(`**req.params.question_id** : ${req.params.question_id}`);
 
   Question.find({ _id: req.params.question_id })
     .then((question) => {
-      console.log(question);
+      // console.log(question);
 
       if (question) {
         // extract the answers
         const answers = question.map((questionItem) => questionItem.answers);
-        console.log(answers);
+        // console.log(answers);
 
         return res.status(200).json(answers);
       }
       return res.status(500).json({ questionNotFound: 'Question not found!!!' });
     })
-    .catch((err) => {
-      console.log(`**ERROR** finding question : ${err}`);
-      return res.status(500).json({ error: 'Failed to find question!' });
-    });
+    .catch((err) =>
+      // console.log(`**ERROR** finding question : ${err}`);
+      res.status(500).json({ error: 'Failed to find question!' }));
 
   return null;
 };
@@ -125,8 +124,8 @@ exports.acceptAnswer = async (req, res) => {
   const { question_id } = req.params;
   const { answer_id } = req.query;
 
-  console.log(`>> question_id : ${question_id}`);
-  console.log(`>> answer_id : ${answer_id}`);
+  // console.log(`>> question_id : ${question_id}`);
+  // console.log(`>> answer_id : ${answer_id}`);
 
   Question.findOneAndUpdate(
     {
@@ -136,8 +135,10 @@ exports.acceptAnswer = async (req, res) => {
     { acceptedAnswer: { id: answer_id } },
     { new: true },
     (err) => {
-      if (err) throw console.log(`**ERROR** : ${err}`);
-      return res.status(200).json({ answerAccepted: 'Answer Accepted!!!' });
+      if (err) {
+        // console.log(`**ERROR** : ${err}`);
+        return res.status(200).json({ answerAccepted: 'Answer Accepted!!!' });
+      }
     },
   );
 
@@ -150,17 +151,16 @@ exports.getQuestions = async (req, res) => {
     .sort({ date: 'desc' })
     .then((questions) => {
       if (questions) {
-        console.log('SUCCESS');
+        // console.log('SUCCESS');
         return res.status(200).json(questions);
       }
 
       return null;
     })
-    .catch((err) => {
-      console.log(`**ERROR** >> finding question: ${err}`);
+    .catch((err) =>
+    // console.log(`**ERROR** >> finding question: ${err}`);
 
-      return res.status(500).json({ error: 'Failed to get Questions!' });
-    });
+      res.status(500).json({ error: 'Failed to get Questions!' }));
 
   return null;
 };
@@ -170,14 +170,12 @@ exports.getQuestion = async (req, res) => {
   const { question_id } = req.params;
 
   Question.findById(question_id)
-    .then((question) => {
-      console.log(question);
-      return res.status(200).json(question);
-    })
-    .catch((err) => {
-      console.log(`**ERROR** >> ${err}`);
-      return res.status(500).json({ error: 'Failed to get question!' });
-    });
+    .then((question) =>
+      // console.log(question);
+      res.status(200).json(question))
+    .catch((err) =>
+      // console.log(`**ERROR** >> ${err}`);
+      res.status(500).json({ error: 'Failed to get question!' }));
 
   return null;
 };

@@ -18,6 +18,16 @@ module.exports = {
     'react',
   ],
   rules: {
+    // "prefer-destructuring": [
+    //   "error", 
+    //   {
+    //     "array": true,
+    //     "object": true
+    //   }, 
+    //   {
+    //     "enforceForRenamedProperties": false
+    //   }
+    // ],
     "constructor-super": 2,
         "for-direction": 2,
         "getter-return": 2,
@@ -86,7 +96,7 @@ module.exports = {
         "capitalized-comments": 2,
         "class-methods-use-this": 2,
         "comma-style": 2,
-        "dot-notation": 2
+        "dot-notation": 2,
   },
   "env": {
     "browser": true,

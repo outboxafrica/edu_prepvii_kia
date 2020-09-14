@@ -21,6 +21,8 @@ module.exports = (passport) => {
         }
         return (null, false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err)
+      });
   }));
 };
