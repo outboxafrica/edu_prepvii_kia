@@ -42,6 +42,9 @@ This is an EDU-API for the EDU Q&A platform where people can ask questions and a
 4. Run `npm start` to start the server.
 5. Open up `Postman` and then test out the Endpoints.
 
+## Heroku App
+https://edu-api-kia.herokuapp.com
+
 ## API Documentation
 https://app.swaggerhub.com/apis-docs/SamuelMabonga/Edu-Question-Api-KIA/1.0.0#/
 
