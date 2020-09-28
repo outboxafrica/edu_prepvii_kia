@@ -9,6 +9,7 @@ This is an EDU-API for the EDU Q&A platform where people can ask questions and a
 - Passport -- Authentication
 - mongoose --Database Management
 - nodemon --automatic refreshing of the server
+- eslint --code linting
 
 ## Main Files: Project Structure
 
