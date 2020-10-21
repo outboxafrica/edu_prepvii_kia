@@ -28,14 +28,16 @@ function Signup(props) {
 
 	return (
 		<div className={styles.container}>
-			<div className={{ width: 200 }}>
+			<div className={styles.sign}>
 				<h1>Signup Page</h1>
 				{errorMessage ? <p className={styles.error}>{errorMessage}</p> : null}
-				<form>
-					<div className={styles.loginForm}>
+				<form className={styles.signupForm}>
+					{/* <div className={styles.loginForm}> */}
 						<div className={styles.loginFormItem}>
 							<label htmlFor='name'>Name</label>
 							<input
+							    autoFocus
+							    className={styles.signupInput}
 								type='text'
 								id='name'
 								value={name}
@@ -46,6 +48,7 @@ function Signup(props) {
 						<div className={styles.loginFormItem}>
 							<label htmlFor='username'>Username</label>
 							<input
+							    className={styles.signupInput}
 								type='text'
 								id='username'
 								value={username}
@@ -56,6 +59,7 @@ function Signup(props) {
 						<div className={styles.loginFormItem}>
 							<label htmlFor='location'>Location</label>
 							<input
+							    className={styles.signupInput}
 								type='text'
 								id='location'
 								value={location}
@@ -66,6 +70,7 @@ function Signup(props) {
 						<div className={styles.loginFormItem}>
 							<label htmlFor='email'>Email</label>
 							<input
+							    className={styles.signupInput}
 								type='text'
 								id='email'
 								value={email}
@@ -76,6 +81,7 @@ function Signup(props) {
 						<div className={styles.loginFormItem}>
 							<label htmlFor='password'>Password</label>
 							<input
+							    className={styles.signupInput}
 								type='password'
 								id='password'
 								value={password}
@@ -86,6 +92,7 @@ function Signup(props) {
 						<div className={styles.loginFormItem}>
 							<label htmlFor='confirmPassword'>Confirm Password</label>
 							<input
+							    className={styles.signupInput}
 								type='password'
 								id='confirmPassword'
 								value={confirmPassword}
@@ -93,7 +100,7 @@ function Signup(props) {
 								disabled={loading}
 							/>
 						</div>
-					</div>
+					{/* </div> */}
 					<button onClick={handleSignup} disabled={loading}>
 						login
 					</button>

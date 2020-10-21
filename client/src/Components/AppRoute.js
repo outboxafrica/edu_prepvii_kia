@@ -7,6 +7,7 @@ const AppRoutes = ({ component: Component, path, isPrivate, ...rest }) => {
 	const userDetails = useAuthState();
 	return (
 		<Route
+		
 			path={path}
 			render={(props) =>
 				isPrivate && !Boolean(userDetails.token) ? (

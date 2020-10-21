@@ -1,10 +1,68 @@
-.logoutBtn {
-	height: '30px';
-	width: '100px';
-}
-
 .dashboardPage {
 	display: flex;
-	width: 100%;
-	justify-content: space-between;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+h2, h3{
+	text-align: center;
+	text-shadow: 2px 2px 2px rgba(44, 62, 80, 0.7);
+}
+code{
+	color: white;
+	text-shadow: 3px 3px 2px rgb(1, 0, 7);
+}
+.dashboardPage > section > ul > li{
+	font-size: 17px;
+  line-height: 40px;
+  text-align: justify;
+}
+section > form {
+	display: flex;
+}
+section > form > input{
+	border: none;
+	width: 70%;
+	margin: 10px 0px;
+	padding: 10px;
+	border-radius: 10px 0px 0px 10px;
+	outline: none;
+	color: rgb(42, 42, 82);
+	font-size: 15px;
+	font-weight: bold;
+}
+section > form > button{
+	margin: 10px 0px;
+	width: 15%;
+	border-radius: 0px 10px 10px 0px;
+	outline: none;
+	cursor: pointer;
+	font-size: 15px;
+	background-color: rgb(42, 42, 82);
+	color: white;
+	font-weight: bold;
+	line-height: normal;
+}
+section > form > button:hover{
+	text-shadow: 2px 2px 2px rgb(82, 82, 160);
+	background-color:  rgb(224, 224, 243);
+	color: rgb(42, 42, 82);
+	box-shadow: 2px 2px 5px rgb(42, 42, 82);
+}
+.logoutBtn {
+	width: 6%;
+	padding: 10px;
+	border-radius: 10px;
+	outline: none;
+	cursor: pointer;
+	font-size: 15px;
+	background-color: rgb(42, 42, 82);
+	color: white;
+	font-weight: bold;
+}
+.logoutBtn:hover{
+	text-shadow: 2px 2px 2px rgb(82, 82, 160);
+	background-color:  rgb(224, 224, 243);
+	color: rgb(42, 42, 82);
+	box-shadow: 2px 2px 5px rgb(42, 42, 82);
 }

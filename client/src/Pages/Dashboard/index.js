@@ -11,14 +11,27 @@ function Dashboard(props) {
 		props.history.push('/login');
 	};
 	return (
-		<div style={{ padding: 10 }}>
+		<div>
 			<div className={styles.dashboardPage}>
-				<h1>Dashboard</h1>
+				<section>
+					<h2>Welcome <code>{userDetails.user}</code></h2>
+					<u><h3>Rules and regulations</h3></u>
+					<ul>
+						<li>If this is your first time at Stack Overflow, you HAVE to read the <strong>FAQ.</strong></li>
+						<li>Each question should have only one accepted answer.</li>
+						<li>NEVER EVER make up rules for EDU Stack Overflow.</li>
+						<li>You are not allowed to advertise on EDU Stack overflow.</li>
+					</ul>
+					<h3>How can we help you?</h3>
+					<form>
+						<input placeholder="Type your question here" autoFocus/>
+                         <button>Post</button>
+					</form>
+				</section>
 				<button className={styles.logoutBtn} onClick={handleLogout}>
 					Logout
 				</button>
 			</div>
-			<p>Welcome {userDetails.user}</p>
 		</div>
 	);
 }

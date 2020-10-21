@@ -1,25 +1,65 @@
-.container {
-	min-height: 100vh;
-	width: 100%;
+
+.sign{
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
-.formContainer {
-	width: 200px;
+.sign > h1{
+	text-shadow: 2px 2px 2px rgba(44, 62, 80, 0.7);
 }
+.signupForm{
+	width: 40%;
+	/* box-shadow: 5px 5px 10px gray; */
+	box-shadow: 2px 2px 5px rgb(42, 42, 82); 
+	display: flex;
+	 flex-direction: column;
+	 justify-content: center;
+	 align-items: center;
+	border-radius: 10px;
+	padding: 15px;
+	background: rgba(44, 62, 80, 0.7);
+	/* transform: translateX(-25rem);  */
+	
+  }
+  .signupForm:hover{
+	box-shadow: none; 
+	transition: 1s;
+  }
+  .signupForm > .loginFormItem> label {
+	  color: rgb(224, 224, 243);
+	  font-weight: bold;
+  }
+  .signupInput{
+	width: 90%;
+	margin: 10px 0px;
+	padding: 10px;
+	border-radius: 10px;
+	outline: none;
+	color: rgb(42, 42, 82);
+  }
+  .signupInput:hover{
+	box-shadow: 2px 2px 5px;
+  }
+  .signupForm > button{
+	width: 20%;
+	padding: 10px;
+	border-radius: 10px;
+	outline: none;
+	cursor: pointer;
+	font-size: 15px;
+	background-color: rgb(42, 42, 82);
+	color: white;
+	font-weight: bold;
+  }
 .error {
 	font-size: 0.8rem;
 	color: #bb0000;
 }
 
-.loginForm {
-	display: flex;
-	flex-direction: column;
-}
-
 .loginFormItem {
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 10px;
-}
+	width: 100%;
+} 

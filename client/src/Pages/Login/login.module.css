@@ -1,25 +1,67 @@
-.container {
-	min-height: 100vh;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.formContainer {
-	width: 200px;
-}
 .error {
 	font-size: 0.8rem;
 	color: #bb0000;
 }
-
-.loginForm {
+.sign{
 	display: flex;
 	flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
-
+.sign > h1{
+	text-shadow: 2px 2px 2px rgba(44, 62, 80, 0.7);
+}
+.loginForm{
+	box-shadow: 2px 2px 5px rgb(42, 42, 82); 
+	background: rgba(44, 62, 80, 0.7);
+	width: 40%;
+	display: flex;
+	 flex-direction: column;
+	 justify-content: center;
+	 align-items: center;
+	border-radius: 10px;
+	padding: 15px;
+	/* transform: translateX(-25rem);  */
+	
+  }
+  .loginForm:hover{
+	box-shadow: none; 
+	transition: 1s;
+  }
+  .loginForm > .loginFormItem> label {
+	  color: rgb(224, 224, 243);
+	  font-weight: bold;
+  }
+  .signinInput{
+	width: 90%;
+	margin: 10px 0px;
+	padding: 10px;
+	border-radius: 10px;
+	outline: none;
+	color: rgb(42, 42, 82);
+  }
+  .signinInput:hover{
+	box-shadow: 2px 2px 5px;
+  }
+  .loginForm > button{
+	width: 20%;
+	padding: 10px;
+	border-radius: 10px;
+	outline: none;
+	cursor: pointer;
+	font-size: 15px;
+	background-color: rgb(42, 42, 82);
+	color: white;
+	font-weight: bold;
+  }
+.error {
+	font-size: 0.8rem;
+	color: #bb0000;
+}
 .loginFormItem {
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 10px;
-}
+	width: 100%;
+} 
+

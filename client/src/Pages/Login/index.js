@@ -26,14 +26,16 @@ function Login(props) {
 
 	return (
 		<div className={styles.container}>
-			<div className={{ width: 200 }}>
+			<div className={styles.sign}>
 				<h1>Login Page</h1>
 				{errorMessage ? <p className={styles.error}>{errorMessage}</p> : null}
-				<form>
-					<div className={styles.loginForm}>
+				<form className={styles.loginForm}>
+					{/* <div className={styles.loginForm}> */}
 						<div className={styles.loginFormItem}>
 							<label htmlFor='email'>Email</label>
 							<input
+							    autoFocus
+							    className={styles.signinInput}
 								type='text'
 								id='email'
 								value={email}
@@ -44,6 +46,7 @@ function Login(props) {
 						<div className={styles.loginFormItem}>
 							<label htmlFor='password'>Password</label>
 							<input
+							 className={styles.signinInput}
 								type='password'
 								id='password'
 								value={password}
@@ -51,7 +54,7 @@ function Login(props) {
 								disabled={loading}
 							/>
 						</div>
-					</div>
+					{/* </div> */}
 					<button onClick={handleLogin} disabled={loading}>
 						login
 					</button>
