@@ -6,6 +6,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 // import passport
 const passport = require('passport');
+// import cors
+const cors = require('cors');
 
 // Create a port variable
 const port = process.env.PORT || 4000;
@@ -41,6 +43,9 @@ mongoose.connect(DB, { useUnifiedTopology: true, useNewUrlParser: true, useFindA
 
 // Passport Middleware
 app.use(passport.initialize());
+
+// use cors
+app.use(cors())
 
 // config for jwt token
 require('./strategies/jwtwebtoken')(passport);

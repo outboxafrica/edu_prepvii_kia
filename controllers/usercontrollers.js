@@ -14,7 +14,11 @@ const key = process.env.JWT_SECRET;
 // Create a user
 exports.signup = async (req, res) => {
   const errors = validationResult(req);
-  //   console.log(req.body);
+//   console.log('request body ==>')
+//   console.log(req.body);
+
+//   console.log('Validation errors')
+//   console.log(errors)
 
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.array());
@@ -30,10 +34,11 @@ exports.signup = async (req, res) => {
     await bcrypt.genSalt(8, (err, salt) => {
       bcrypt.hash(user.password, salt, (error, hash) => {
         if (error) {
-        //   console.log(error);
+          console.log(error);
           return res.status(401).json({ message: 'Failed to hash password' });
         }
 
+        // console.log('hashing password')
         user.password = hash;
         user.save((_error) => {
           if (_error) {
@@ -61,7 +66,10 @@ exports.signup = async (req, res) => {
 // Login
 exports.login = async (req, res) => {
   const errors = validationResult(req);
-  //   console.log(req.body);
+//   console.log(req.body);
+
+//   console.log('validation errors ==>')  
+//   console.log(errors)
 
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.array());
@@ -69,11 +77,15 @@ exports.login = async (req, res) => {
 
   const { email } = req.body;
   const { password } = req.body;
+
   User.findOne({ email })
     .then((user) => {
       if (!user) {
         return res.status(400).json({ emailError: 'You are not registered! Please register!' });
       }
+
+      const name = user.username
+      console.log(name)
 
       // unhashing password and check bcrypt
       bcrypt.compare(password, user.password)
@@ -92,15 +104,16 @@ exports.login = async (req, res) => {
               { expiresIn: '1h' },
               (err, token) => {
                 if (err) {
-                //   console.log(`ERROR >> ${err}`);
+                  console.log(`ERROR >> ${err}`);
 
-                  return res.json({
+                  return res.status(500).json({
                     success: false,
                     token: 'null',
                   });
                 }
-                return res.json({
-                  success: true,
+                // console.log('returning token and username')
+                return res.status(200).json({
+                  username: name,
                   userToken: token,
                 });
               },
@@ -120,7 +133,8 @@ exports.login = async (req, res) => {
     .catch((err) =>
     //   console.log(`ERROR >> ${err}`);
 
-      res.status(401).json({ message: 'Failed!' }));
+      res.status(401).json({ message: 'Failed!' })
+    );
 
   return null;
 };
