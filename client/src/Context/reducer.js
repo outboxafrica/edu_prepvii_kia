@@ -12,6 +12,9 @@ export const initialState = {
 	token: '' || token,
 	loading: false,
 	errorMessage: null,
+	questions: [],
+	question: [],
+	answers: []
 };
 
 export const AuthReducer = (initialState, action) => {
@@ -38,6 +41,12 @@ export const AuthReducer = (initialState, action) => {
 				...initialState,
 				loading: false
 			}
+		case 'SIGNUP_ERROR':
+			return {
+				...initialState,
+				loading: false,
+				errorMessage: action.error,
+			};
 		case 'LOGOUT':
 			return {
 				...initialState,
@@ -51,6 +60,89 @@ export const AuthReducer = (initialState, action) => {
 				loading: false,
 				errorMessage: action.error,
 			};
+
+		case 'GET_ALL_QUESTIONS':
+			return {
+				...initialState,
+				loading: true,
+			}
+
+		case 'GET_ALL_QUESTIONS_SUCCESS':
+			return {
+				...initialState,
+				loading: false,
+				questions: action.payload
+			}
+		
+		case 'GET_ALL_QUESTIONS_ERROR':
+			return {
+				...initialState,
+				loading: false,
+				errorMessage: action.error,
+			};
+		
+		case 'REQUEST_ANSWER_QUESTION':
+			return {
+				...initialState,
+				loading: true,
+			};
+
+		case 'ANSWER_QUESTION_SUCCESS':
+			return {
+				...initialState,
+				loading: false,
+				question: action.payload.question,
+				questions: action.payload.questions,
+				answers: action.payload.answers,
+			};
+
+		case 'ANSWER_QUESTION_ERROR':
+			return {
+				...initialState,
+				loading: false,
+				errorMessage: action.error,
+			};
+
+		case 'OPEN_QUESTION':
+			return {
+				...initialState,
+				loading: false,
+				question: action.payload,
+			};
+
+		case 'REQUEST_ANSWERS_SUCCESS':
+			return {
+				...initialState,
+				loading: false,
+				answers: action.payload,
+			};
+		
+		case 'REQUEST_ANSWERS_ERROR':
+			return {
+				...initialState,
+				loading: false,
+				errorMessage: action.payload,
+			};
+
+		case 'REQUEST_NEW_QUESTION':
+			return {
+				...initialState,
+				loading: true,
+			}
+
+		case 'NEW_QUESTION_SUCCESS':
+			return {
+				...initialState,
+				loading: false,
+				questions: action.payload
+			}
+
+		case 'NEW_QUESTION_ERROR':
+			return {
+				...initialState,
+				loading: false,
+				errorMessage: action.payload
+			}
 
 		default:
 			throw new Error(`Unhandled action type: ${action.type}`);

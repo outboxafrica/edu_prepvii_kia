@@ -27,6 +27,20 @@ const questionsRoute = require('./routes/questions');
 // create an express app
 const app = express();
 
+// const corsOptions = {
+//   origin: 'http://localhost:3000',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// }
+
+// use cors
+app.use(cors())
+
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "*");
+//   next();
+// });
+
 // use express.json middleware
 app.use(express.json());
 // express.static to enable us access static files
@@ -44,8 +58,11 @@ mongoose.connect(DB, { useUnifiedTopology: true, useNewUrlParser: true, useFindA
 // Passport Middleware
 app.use(passport.initialize());
 
-// use cors
-app.use(cors())
+
+
+
+
+
 
 // config for jwt token
 require('./strategies/jwtwebtoken')(passport);
@@ -54,7 +71,7 @@ require('./strategies/jwtwebtoken')(passport);
 // use auth routes
 app.use('/api', signuproute);
 // use questions routes
-app.use('/api/questions', questionsRoute);
+app.use('/api/questions', cors(), questionsRoute);
 
 // check port
 app.listen(port, () => {

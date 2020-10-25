@@ -3,6 +3,7 @@ import Signup from '../Pages/Signup';
 import Login from '../Pages/Login';
 import Dashboard from '../Pages/Dashboard';
 import NotFound from '../Pages/NotFound';
+import Question from '../Pages/Question';
 
 const routes = [
 	{
@@ -19,6 +20,11 @@ const routes = [
 		path: '/dashboard',
 		component: Dashboard,
 		isPrivate: true,
+	},
+	{
+		path: '/question',
+		component: Question,
+		isPrivate: false
 	},
 	{
 		path: '/*',

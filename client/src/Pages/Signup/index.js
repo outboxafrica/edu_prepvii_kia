@@ -23,14 +23,28 @@ function Signup(props) {
 			props.history.push('/login');
 		} catch (error) {
 			console.log(error);
+			console.log(errorMessage)
 		}
 	};
+
+	let errorMsgs = []
+
+	if (errorMessage) {
+		// console.log('msgs>>>')
+		errorMessage.map(error => {
+			// console.log('pushing')
+			errorMsgs.push(<li className={styles.error}>{error}</li>)
+			return null
+		})
+	}
 
 	return (
 		<div className={styles.container}>
 			<div className={{ width: 200 }}>
 				<h1>Signup Page</h1>
-				{errorMessage ? <p className={styles.error}>{errorMessage}</p> : null}
+				<ul>
+					{errorMessage ? errorMsgs : null}
+				</ul>
 				<form>
 					<div className={styles.loginForm}>
 						<div className={styles.loginFormItem}>
@@ -95,7 +109,7 @@ function Signup(props) {
 						</div>
 					</div>
 					<button onClick={handleSignup} disabled={loading}>
-						login
+						Signup
 					</button>
 				</form>
 			</div>

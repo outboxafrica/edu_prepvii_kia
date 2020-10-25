@@ -15,20 +15,27 @@ function Login(props) {
 
 		try {
 			let response = await loginUser(dispatch, { email, password });
-			// console.log(response.username)
 			if (!response.username) return;
-			// console.log('pushing to dashboard')
 			props.history.push('/dashboard');
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
+	let errorMsgs = []
+
+	if (errorMessage) {
+		errorMessage.map(error => {
+			errorMsgs.push(<li className={styles.error}>{error}</li>)
+			return null
+		})
+	}
+
 	return (
 		<div className={styles.container}>
 			<div className={{ width: 200 }}>
 				<h1>Login Page</h1>
-				{errorMessage ? <p className={styles.error}>{errorMessage}</p> : null}
+				{errorMessage ? errorMsgs : null}
 				<form>
 					<div className={styles.loginForm}>
 						<div className={styles.loginFormItem}>

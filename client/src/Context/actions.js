@@ -12,21 +12,23 @@ export async function loginUser(dispatch, loginPayload) {
 		let response = await fetch(`${ROOT_URL}/auth/login`, requestOptions);
 		let data = await response.json();
 
-		console.log('data received by client ==>')
-		console.log(data)
-
 		if (data.username) {
 			dispatch({ type: 'LOGIN_SUCCESS', payload: data });
 			localStorage.setItem('currentUser', JSON.stringify(data));
 			return data;
 		}
 
-		dispatch({ type: 'LOGIN_ERROR', error: data.errors[0] });
-		console.log(data.errors[0]);
+		let errorsArray = []
+
+		data.map(error => {
+			errorsArray.push(error.msg)
+			return null
+		})
+
+		dispatch({ type: 'LOGIN_ERROR', error: errorsArray });
 		return;
 	} catch (error) {
 		dispatch({ type: 'LOGIN_ERROR', error: error });
-		console.log(error);
 	}
 }
 
@@ -44,16 +46,20 @@ export async function signupUser(dispatch, signupPayload) {
 
 		if (data.email) {
 			dispatch({ type: 'SIGNUP_SUCCESS' });
-			// localStorage.setItem('currentUser', JSON.stringify(data));
 			return data;
 		}
 
-		dispatch({ type: 'LOGIN_ERROR', error: data.errors[0] });
-		console.log(data.errors[0]);
+		let errorsArray = []
+
+		data.map(error => {
+			errorsArray.push(error.msg)
+			return null
+		})
+
+		dispatch({ type: 'SIGNUP_ERROR', error: errorsArray });
 		return;
 	} catch (error) {
-		dispatch({ type: 'LOGIN_ERROR', error: error });
-		console.log(error);
+		dispatch({ type: 'SIGNUP_ERROR', error: error });
 	}
 }
 
@@ -66,8 +72,85 @@ export async function logout(dispatch) {
 export async function getAllQuestions(dispatch) {
 	const requestOptions = {
 		method: 'GET',
+		mode: 'cors',
 		headers: { 'Content-Type': 'application/json' },
 	}
-	dispatch({ type: 'GET_ALL_QUESTIONS' })
+	
+	try {
+		dispatch({ type: 'GET_ALL_QUESTIONS' })
+		let response = await fetch(`${ROOT_URL}/questions`, requestOptions);
+		let data = await response.json()
 
+		if (data.questions[0].textone) {
+			dispatch({ type: 'GET_ALL_QUESTIONS_SUCCESS', payload: data.questions })
+			dispatch({ type: 'REQUEST_ANSWERS_SUCCESS', payload: data.answers })
+			return null
+		}
+
+		dispatch({ type: 'GET_ALL_QUESTIONS_ERROR', error: data })
+	} catch (error) {
+		dispatch({ type: 'GET_ALL_QUESTIONS_ERROR', error: error})
+	}
+}
+
+export async function openQuestion(dispatch, question) {
+	dispatch({ type: 'OPEN_QUESTION', payload: question })
+}
+
+export async function newQuestion(dispatch, questionPayload, token) {
+	const requestOptions = {
+		method: 'POST',
+		mode: 'cors',
+		headers: {
+			'Accept': 'application/json', 
+			'Authorization': `Bearer ${token}`,
+			'Content-Type': 'application/json' 
+		},
+		body: JSON.stringify(questionPayload)
+	}
+
+	try {
+		dispatch({ type: 'REQUEST_NEW_QUESTION' })
+		let response = await fetch(`${ROOT_URL}/questions`, requestOptions)
+		let data = await response.json()
+
+		if (data[0]._id) {
+			dispatch({ type: 'NEW_QUESTION_SUCCESS', payload: data })
+			return data
+		}
+
+		dispatch({ type: 'NEW_QUESTION_ERROR', payload: data })
+	} catch(error) {
+		dispatch({ type: 'NEW_QUESTION_ERROR', payload: error })
+	}
+}
+
+export async function answerQuestion(dispatch, answerPayload, question, token) {
+
+	const requestOptions = {
+		method: 'POST',
+		mode: 'cors',
+		headers: {
+			'Accept': 'application/json', 
+			'Authorization': `Bearer ${token}`,
+			'Content-Type': 'application/json' 
+		},
+		body: JSON.stringify(answerPayload)
+	}
+
+	try {
+		dispatch({ type: 'REQUEST_ANSWER_QUESTION' })
+		let response = await fetch(`${ROOT_URL}/questions/${question._id}/answers`, requestOptions)
+
+		let data = await response.json()
+
+		if (data.questions[0].textone) {
+			dispatch({ type: 'ANSWER_QUESTION_SUCCESS', payload: data })
+			return data;
+		}
+
+		dispatch({ type: 'ANSWER_QUESTION_ERROR', payload: data })
+	} catch(error) {
+		dispatch({ type: 'ANSWER_QUESTION_ERROR', payload: error })
+	}
 }

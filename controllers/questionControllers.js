@@ -24,10 +24,21 @@ exports.post = async (req, res) => {
   });
 
   newQuestion.save()
-    .then((question) => res.json(question))
+    .then(async () => {
+      let questions = await Question.find()
+        .sort({ date: 'desc' })
+        .then((questions) => {
+          if (questions) {
+            return questions
+          }
+        })
+        .catch((err) => res.status(500).json({ error: err }));
+
+      res.status(200).json(questions)
+    })
     .catch((err) =>
       // console.log('Unable to save question to database', err);
-      res.status(500).json({ error: 'Failed to save answer!' }));
+      res.status(500).json({ error: err }));
 
   return null;
 };
@@ -35,8 +46,7 @@ exports.post = async (req, res) => {
 // Post an answer to a question
 exports.postAnswer = async (req, res) => {
   const errors = validationResult(req);
-  // console.log(req.body);
-
+  
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.array());
   }
@@ -65,11 +75,36 @@ exports.postAnswer = async (req, res) => {
       },
       { $push: { 'answers.0': newAnswer } },
       { new: true },
-    ).then((question) =>
-      // console.log(question);
-      res.status(200).json(question)).catch((err) =>
-      // console.log(`**ERROR** find and update question : ${err}`);
-      res.status(500).json({ failedToUpdate: 'Failed to save the answer!' }));
+    )
+    .then( async (question) => {
+      let answers = await Answer.find()
+        .sort({ date: 'desc' })
+        .then(items => {
+          if (items) {
+            return items
+          }
+        })
+        .catch(error => {
+          res.status(500).json({ error: 'Failed to get answers' })
+          console.log(error)
+        })
+
+      let questions = await Question.find()
+        .sort({ date: 'desc' })
+        .then(items => {
+          if (items) {
+            return items
+          }
+        })
+        .catch(error => {
+          res.status(500).json({ error: error })
+        })
+
+      res.status(200).json({ question, questions, answers })
+    })
+    .catch((err) => 
+      res.status(500).json({ failedToUpdate: 'Failed to save the answer!' })
+    );
 
     return null;
   });
@@ -145,22 +180,33 @@ exports.acceptAnswer = async (req, res) => {
   return null;
 };
 
-// Get all user's questions
+// Get all user's questions and answers
 exports.getQuestions = async (req, res) => {
+  let answers = await Answer.find()
+    .sort({ date: 'desc' })
+    .then(items => {
+      if (items) {
+        return items
+      }
+    })
+    .catch(error => {
+      res.status(500).json({ error: 'Failed to get answers' })
+      console.log(error)
+    })
+    
   Question.find()
     .sort({ date: 'desc' })
     .then((questions) => {
       if (questions) {
         // console.log('SUCCESS');
-        return res.status(200).json(questions);
+        return res.status(200).json({questions, answers});
       }
-
       return null;
     })
     .catch((err) =>
     // console.log(`**ERROR** >> finding question: ${err}`);
 
-      res.status(500).json({ error: 'Failed to get Questions!' }));
+      res.status(500).json({ error: error }));
 
   return null;
 };
