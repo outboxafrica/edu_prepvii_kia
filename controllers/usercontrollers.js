@@ -75,6 +75,8 @@ exports.login = async (req, res) => {
         return res.status(400).json({ emailError: 'You are not registered! Please register!' });
       }
 
+      const name = user.username
+
       // unhashing password and check bcrypt
       bcrypt.compare(password, user.password)
         .then((isCorrect) => {
@@ -94,13 +96,10 @@ exports.login = async (req, res) => {
                 if (err) {
                 //   console.log(`ERROR >> ${err}`);
 
-                  return res.json({
-                    success: false,
-                    token: 'null',
-                  });
+                  return res.status(400).json({error: err});
                 }
-                return res.json({
-                  success: true,
+                return res.status(200).json({
+                  username: name,
                   userToken: token,
                 });
               },
